@@ -9,15 +9,14 @@ const handlers = [
 				req.passthrough(),
 		  )
 		: null,
-	process.env.MAILGUN_DOMAIN
+	process.env.RESEND_SECRET
 		? rest.post(
-				`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`,
+				`https://api.resend.com/emails`,
 				async (req, res, ctx) => {
-					requiredHeader(req.headers, 'Authorization')
-					const body = Object.fromEntries(new URLSearchParams(await req.text()))
+					const body = await req.text()
 					console.info('🔶 mocked email contents:', body)
 
-					await writeEmail(body)
+					await writeEmail(JSON.parse(body))
 
 					const randomId = '20210321210543.1.E01B8B612C44B41B'
 					const id = `<${randomId}>@${req.params.domain}`
