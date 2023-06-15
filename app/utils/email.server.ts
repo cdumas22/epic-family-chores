@@ -18,6 +18,6 @@ export async function sendEmail(email: {
 
 	return resend.emails.send({
 		...email,
-		from: 'hello@epicstack.dev',
+		from: 'noreply@resend.dev',
 	})
 }
