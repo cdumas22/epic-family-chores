@@ -13,6 +13,7 @@ export async function sendEmail(email: {
 		console.error(`Failing to send the following email:`, JSON.stringify(email))
 		return
 	}
+	console.log(process.env.RESEND_SECRET);
 	const resend = new Resend(process.env.RESEND_SECRET);
 
 	return resend.emails.send({
