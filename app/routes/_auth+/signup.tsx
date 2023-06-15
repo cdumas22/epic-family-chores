@@ -117,7 +117,7 @@ Or you can open this URL: ${onboardingUrl}
 		`,
 	})
 
-	if (response?.ok) {
+	if (response?.id) {
 		return redirect(redirectTo.pathname + redirectTo.search)
 	} else {
 		return json(
