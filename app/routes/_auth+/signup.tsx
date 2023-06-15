@@ -93,7 +93,6 @@ export async function action({ request }: DataFunctionArgs) {
 	// add the otp to the url we'll email the user.
 	onboardingUrl.searchParams.set(onboardingOTPQueryParam, otp)
 
-
 	try {
 		const response = await sendEmail({
 			to: email,
@@ -118,7 +117,7 @@ export async function action({ request }: DataFunctionArgs) {
 			</html>
 			`,
 		})
-	
+
 		if (response?.id) {
 			return redirect(redirectTo.pathname + redirectTo.search)
 		} else {
@@ -131,15 +130,15 @@ export async function action({ request }: DataFunctionArgs) {
 			)
 		}
 	} catch (error) {
-		console.error(error);
-		return json({
-			status: 'error',
-			submission,
-		} as const,
-		{ status: 500 },
+		console.error(error)
+		return json(
+			{
+				status: 'error',
+				submission,
+			} as const,
+			{ status: 500 },
 		)
 	}
-	
 }
 
 export const meta: V2_MetaFunction = () => {
