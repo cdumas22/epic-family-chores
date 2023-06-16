@@ -28,7 +28,7 @@ CREATE TABLE "Chore_Status" (
 CREATE TABLE "TimeOfDay" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "order" INTEGER NOT NULL DEFAULT 1,
-    "name" TEXT NOT NULL
+    "name" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     CONSTRAINT "TimeOfDay_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -76,4 +76,5 @@ CREATE UNIQUE INDEX "_ChoreToPerson_AB_unique" ON "_ChoreToPerson"("A", "B");
 -- CreateIndex
 CREATE INDEX "_ChoreToPerson_B_index" ON "_ChoreToPerson"("B");
 
+-- CreateIndex
 CREATE UNIQUE INDEX "TimeOfDay_id_key" ON "TimeOfDay"("id");
