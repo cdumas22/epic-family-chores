@@ -75,6 +75,3 @@ CREATE UNIQUE INDEX "_ChoreToPerson_AB_unique" ON "_ChoreToPerson"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ChoreToPerson_B_index" ON "_ChoreToPerson"("B");
-
--- CreateIndex
-CREATE UNIQUE INDEX "TimeOfDay_id_key" ON "TimeOfDay"("id");
