@@ -160,7 +160,7 @@ function App() {
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="flex h-full flex-col justify-between bg-day-300 text-white dark:bg-night-700 ">
+			<body className="flex h-full flex-col justify-between bg-day-300 text-black dark:bg-night-700 dark:text-white ">
 				<header className="container mx-auto py-6">
 					<nav className="flex justify-between">
 						<div className="flex items-center gap-10">

@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme.js'
 import tailwindcssRadix from 'tailwindcss-radix'
+import daisyUI from 'daisyui'
 
 export default {
 	content: ['./app/**/*.{ts,tsx,jsx,js}'],
@@ -80,5 +81,5 @@ export default {
 			},
 		},
 	},
-	plugins: [tailwindcssRadix],
+	plugins: [tailwindcssRadix, daisyUI],
 } satisfies Config
