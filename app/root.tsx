@@ -17,9 +17,11 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLoaderData,
+	useOutletContext,
 	useSubmit,
 } from '@remix-run/react'
 import { withSentry } from '@sentry/remix'
+import { createContext } from 'react'
 import { ThemeSwitch, useTheme } from './routes/resources+/theme/index.tsx'
 import { getTheme } from './routes/resources+/theme/theme-session.server.ts'
 import fontStylestylesheetUrl from './styles/font.css'
@@ -34,6 +36,7 @@ import { getUserImgSrc } from './utils/misc.ts'
 import { useNonce } from './utils/nonce-provider.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { useOptionalUser, useUser } from './utils/user.ts'
+import reactCircularProgress from 'react-circular-progressbar/dist/styles.css'
 
 export const links: LinksFunction = () => {
 	return [
@@ -62,14 +65,19 @@ export const links: LinksFunction = () => {
 		{ rel: 'icon', href: '/favicon.ico' },
 		{ rel: 'stylesheet', href: fontStylestylesheetUrl },
 		{ rel: 'stylesheet', href: tailwindStylesheetUrl },
+		{ rel: 'stylesheet', href: reactCircularProgress },
 		cssBundleHref ? { rel: 'stylesheet', href: cssBundleHref } : null,
 	].filter(Boolean)
 }
 
 export const meta: V2_MetaFunction = () => {
 	return [
-		{ title: 'Epic Notes' },
-		{ name: 'description', content: 'Find yourself in outer space' },
+		{ title: 'Family chores' },
+		{
+			name: 'description',
+			content:
+				'Simple application for managing family chores throughout the day.',
+		},
 	]
 }
 
@@ -119,6 +127,17 @@ export async function loader({ request }: DataFunctionArgs) {
 	)
 }
 
+const defaultChoreContext: { choreComplete: boolean; choreColor?: string } = {
+	choreComplete: false,
+	choreColor: undefined,
+}
+
+const choreContext = createContext(defaultChoreContext)
+
+export function useChoreContext() {
+	return useOutletContext<typeof defaultChoreContext>()
+}
+
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
 	const headers = {
 		'Server-Timing': loaderHeaders.get('Server-Timing') ?? '',
@@ -144,31 +163,21 @@ function App() {
 			<body className="flex h-full flex-col justify-between bg-day-300 text-white dark:bg-night-700 ">
 				<header className="container mx-auto py-6">
 					<nav className="flex justify-between">
-						<Link to="/">
-							<div className="font-light text-black dark:text-white">epic</div>
-							<div className="font-bold text-black dark:text-white">notes</div>
-						</Link>
 						<div className="flex items-center gap-10">
-							{user ? (
-								<UserDropdown />
-							) : (
-								<ButtonLink to="/login" size="sm" variant="primary">
-									Log In
-								</ButtonLink>
-							)}
+							{!!user && <UserDropdown />}
+							{/* <ButtonLink to="/login" size="sm" variant="primary">
+								Log In
+							</ButtonLink>
+							) */}
 						</div>
 					</nav>
 				</header>
 
 				<div className="flex-1">
-					<Outlet />
+					<Outlet context={choreContext} />
 				</div>
 
 				<div className="container mx-auto flex justify-between">
-					<Link to="/">
-						<div className="font-light text-black dark:text-white">epic</div>
-						<div className="font-bold text-black dark:text-white">notes</div>
-					</Link>
 					<ThemeSwitch userPreference={data.requestInfo.session.theme} />
 				</div>
 				<div className="h-5" />
@@ -218,13 +227,22 @@ function UserDropdown() {
 					<DropdownMenu.Item asChild>
 						<Link
 							prefetch="intent"
-							to={`/users/${user.username}`}
+							to={`/`}
 							className="rounded-t-3xl px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
+						>
+							Chores
+						</Link>
+					</DropdownMenu.Item>
+					<DropdownMenu.Item asChild>
+						<Link
+							prefetch="intent"
+							to={`/users/${user.username}`}
+							className="px-7 py-5 outline-none hover:bg-night-500 radix-highlighted:bg-night-500"
 						>
 							Profile
 						</Link>
 					</DropdownMenu.Item>
-					<DropdownMenu.Item asChild>
+					{/* <DropdownMenu.Item asChild>
 						<Link
 							prefetch="intent"
 							to={`/users/${user.username}/notes`}
@@ -232,7 +250,7 @@ function UserDropdown() {
 						>
 							Notes
 						</Link>
-					</DropdownMenu.Item>
+					</DropdownMenu.Item> */}
 					<DropdownMenu.Item asChild>
 						<Form
 							action="/logout"

@@ -67,12 +67,20 @@ export default function UsernameIndex() {
 						{isLoggedInUser ? (
 							<>
 								<ButtonLink
-									to="notes"
+									to="/settings/people"
 									variant="primary"
 									size="md"
 									prefetch="intent"
 								>
-									My notes
+									Household people
+								</ButtonLink>
+								<ButtonLink
+									to="/settings/timeofday"
+									variant="primary"
+									size="md"
+									prefetch="intent"
+								>
+									Time of day settings
 								</ButtonLink>
 								<ButtonLink
 									to="/settings/profile"
