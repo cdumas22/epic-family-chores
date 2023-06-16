@@ -6,8 +6,7 @@ import type {
 } from '@remix-run/node'
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { endOfDay, startOfDay } from 'date-fns'
-import groupBy from 'lodash/groupBy'
-import orderBy from 'lodash/orderBy'
+import _ from 'lodash'
 import ChoreComplete from '~/components/ChoreComplete.tsx'
 import PersonCard from '~/components/PersonCard.tsx'
 import { useChoreContext } from '~/root.tsx'
@@ -61,8 +60,8 @@ export async function loader({ request }: DataFunctionArgs) {
 			imageId: x.imageId,
 			name: x.name,
 
-			chores: groupBy(
-				orderBy(
+			chores: _.groupBy(
+				_.orderBy(
 					x.chores.flatMap(y => {
 						const status = choreStatus.find(z => z.choreId === y.id)
 						if (

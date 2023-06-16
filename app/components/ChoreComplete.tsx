@@ -10,7 +10,7 @@ export default function ChoreComplete() {
 		choreContext.choreComplete = false
 	}
 	return (
-		// <div></div>
+		// @ts-ignore
 		<ReactConfetti
 			className="!fixed"
 			// width={width}
