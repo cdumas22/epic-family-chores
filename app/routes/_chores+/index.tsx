@@ -173,7 +173,7 @@ export default function Index() {
 			</div>
 			<Link
 				preventScrollReset
-				to="create"
+				to="/chores/create"
 				title="Create chore"
 				aria-label="Create chore"
 				className="fixed bottom-4 right-4"

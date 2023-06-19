@@ -42,9 +42,6 @@ export function Field({
 	const errorId = errors?.length ? `${id}-error` : undefined
 	return (
 		<div className={twMerge('form-control w-full', className)}>
-			<label className="label" htmlFor={id}>
-				<span className="label-text">{labelProps.children}</span>
-			</label>
 			<input
 				id={id}
 				aria-invalid={errorId ? true : undefined}
@@ -54,7 +51,40 @@ export function Field({
 				className={`input-bordered input w-full ${!!errorId && 'input-error'}`}
 			/>
 			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
+			<label className="label" htmlFor={id}>
+				<span className="label-text">{labelProps.children}</span>
+			</label>
 
+			<div className="label text-red-500">
+				{errorId ? <ErrorList id={errorId} errors={errors} /> : null}
+			</div>
+		</div>
+	)
+}
+
+export function FieldWrapper({
+	labelProps,
+	inputProps,
+	children,
+	errors,
+	className,
+}: {
+	labelProps: Omit<JSX.IntrinsicElements['label'], 'className'>
+	inputProps: Omit<JSX.IntrinsicElements['input'], 'className'>
+	children: JSX.Element | JSX.Element[]
+	errors?: ListOfErrors
+	className?: string
+}) {
+	const fallbackId = useId()
+	const id = inputProps.id ?? fallbackId
+	const errorId = errors?.length ? `${id}-error` : undefined
+	return (
+		<div className={twMerge('form-control w-full', className)}>
+			<label className="label" htmlFor={id}>
+				<span className="label-text">{labelProps.children}</span>
+			</label>
+			{children}
+			{/* the label comes after the input so we can use the sibling selector in the CSS to give us animated label control in CSS only */}
 			<div className="label text-red-500">
 				{errorId ? <ErrorList id={errorId} errors={errors} /> : null}
 			</div>
